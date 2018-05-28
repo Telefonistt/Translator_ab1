@@ -28,27 +28,27 @@ namespace LA_Shtokal
         private void Run()
         {
             Analiz test = new Analiz(code);
-            if(test.error!=null)
+            if(test.Error!=null)
             {
-                MessageBox.Show("Помилка! Рядок " + test.error.row.ToString() + ". Колонка " + test.error.column.ToString()+"\n"+test.error.message);
+                MessageBox.Show("Помилка! Рядок " + test.Error.row.ToString() + ". Колонка " + test.Error.column.ToString()+"\n"+test.Error.message);
                 return;
             }
             dataGridView1.Rows.Clear();
             dataGridView2.Rows.Clear();
             dataGridView3.Rows.Clear();
-            for (int i=0;i<test.rezultTable.Count;i++)
+            for (int i=0;i<test.RezultTable.Count;i++)
             {
-                dataGridView1.Rows.Add(test.rezultTable[i].row, test.rezultTable[i].lexem, test.rezultTable[i].code, test.rezultTable[i].indexConst==0?"": test.rezultTable[i].indexConst.ToString());
+                dataGridView1.Rows.Add(test.RezultTable[i].row, test.RezultTable[i].lexem, test.RezultTable[i].code, test.RezultTable[i].indexConst==0?"": test.RezultTable[i].indexConst.ToString());
             }
 
-            for (int i = 0; i < test.identifiersTable.Count; i++)
+            for (int i = 0; i < test.IdentifiersTable.Count; i++)
             {
-                dataGridView2.Rows.Add(test.identifiersTable[i].idn, test.identifiersTable[i].index);
+                dataGridView2.Rows.Add(test.IdentifiersTable[i].idn, test.IdentifiersTable[i].index);
             }
 
-            for (int i = 0; i < test.constTable.Count; i++)
+            for (int i = 0; i < test.ConstTable.Count; i++)
             {
-                dataGridView3.Rows.Add(test.constTable[i].constant, test.constTable[i].index);
+                dataGridView3.Rows.Add(test.ConstTable[i].constant, test.ConstTable[i].index);
             }
         }
 

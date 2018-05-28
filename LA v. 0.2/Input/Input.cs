@@ -10,11 +10,11 @@ namespace LA_Shtokal
 {
     class Input_Data
     {
-        private  string code = "";
+        protected  string code = "";
 
-        private  Dictionary<int, string> lexemTable = new Dictionary<int, string>();
+        //protected readonly  Dictionary<int, string> lexemTable1 = new Dictionary<int, string>();
 
-        private  
+        protected LexemTable lexemTable = new LexemTable();
 
         protected  Dictionary<string, Regex> symbolTable = new Dictionary<string, Regex>();
  
@@ -43,51 +43,53 @@ namespace LA_Shtokal
                                         {-5,-5, -5, -5, -4, -5, -5 }};
         }
 
-        private  void InitLexemTable()
+        private  int InitLexemTable()
         {
-            lexemTable.Add(1, "Програма");
-            lexemTable.Add(2, "змінні");
-            lexemTable.Add(3, "початок");
-            lexemTable.Add(4, "кінець");
-            lexemTable.Add(5, "ціле");
-            lexemTable.Add(6, "дійсне");
-            lexemTable.Add(7, "символ");
-            lexemTable.Add(8, "логічне");
-            lexemTable.Add(9, "для");
-            lexemTable.Add(10, "якщо");
-            lexemTable.Add(11, "інакше");
-            lexemTable.Add(12, "читати");
-            lexemTable.Add(13, "писати");
-            lexemTable.Add(14, "або");
-            lexemTable.Add(15, "та");
-
-            lexemTable.Add(16, ";");
-            lexemTable.Add(17, ":");
-            lexemTable.Add(18, ",");
-            lexemTable.Add(19, "(");
-            lexemTable.Add(20, ")");
-            lexemTable.Add(21, "[");
-            lexemTable.Add(22, "]");
-            lexemTable.Add(23, "{");
-            lexemTable.Add(24, "}");
-            lexemTable.Add(25, "=");
-            lexemTable.Add(26, "+");
-            lexemTable.Add(27, "-");
-            lexemTable.Add(28, "*");
-            lexemTable.Add(29, ">");
-            lexemTable.Add(30, "<");
-            lexemTable.Add(31, ">=");
-            lexemTable.Add(32, "<=");
-            lexemTable.Add(33, "==");
-            lexemTable.Add(34, "!=");
-            lexemTable.Add(35, "!");
-            lexemTable.Add(36, "^");
-            lexemTable.Add(37, "ind");
-            lexemTable.Add(38, "const");
+            lexemTable.AddLex("Програма");
+            lexemTable.AddLex("змінні");
+            lexemTable.AddLex("початок");
+            lexemTable.AddLex("кінець");
+            lexemTable.AddLex("ціле");
+            lexemTable.AddLex("дійсне");
+            lexemTable.AddLex("символ");
+            lexemTable.AddLex("логічне");
+            lexemTable.AddLex("для");
+            lexemTable.AddLex("якщо");
+            lexemTable.AddLex("інакше");
+            lexemTable.AddLex("читати");
+            lexemTable.AddLex("писати");
+            lexemTable.AddLex("або");
+            lexemTable.AddLex("та");
+            lexemTable.AddLex("перемога");
+            lexemTable.AddLex("зрада");
+            lexemTable.AddLex(";");
+            lexemTable.AddLex(":");
+            lexemTable.AddLex(",");
+            lexemTable.AddLex("(");
+            lexemTable.AddLex(")");
+            lexemTable.AddLex("[");
+            lexemTable.AddLex("]");
+            lexemTable.AddLex("{");
+            lexemTable.AddLex("}");
+            lexemTable.AddLex("=");
+            lexemTable.AddLex("+");
+            lexemTable.AddLex("-");
+            lexemTable.AddLex("*");
+            lexemTable.AddLex(">");
+            lexemTable.AddLex("<");
+            lexemTable.AddLex(">=");
+            lexemTable.AddLex("<=");
+            lexemTable.AddLex("==");
+            lexemTable.AddLex("!=");
+            lexemTable.AddLex("!");
+            lexemTable.AddLex("^");
+            lexemTable.AddLex("ind");
+            int count= lexemTable.AddLex("const");
+            return count;
         }
         private  void InitSymbolTable()
         {
-            Regex letter = new Regex("[a-zA-Z]");
+            Regex letter = new Regex("[_a-zA-ZАаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯя]");
             Regex digit = new Regex("[0-9]");
             Regex separ_one = new Regex("[(|)|\\[|\\]|\\{|\\}|,|;|:|+|\\-|*|/|\\^|.]");
             Regex separ_logic = new Regex("[>|<|!]");
@@ -102,8 +104,5 @@ namespace LA_Shtokal
             symbolTable.Add("space", space);
 
         }
-
-        
-
     }
 }

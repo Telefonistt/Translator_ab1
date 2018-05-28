@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LA_v._0._2
+namespace LA_Shtokal
 {
     public class LexemTable:Dictionary<int,string>
     {
         private int index=0;
 
-        public void AddLex(string lex)
+        public int AddLex(string lex)
         {
+            int tempIndex = index;
             this.Add(index, lex);
             index++;
+            return tempIndex;
         }
     }
 }

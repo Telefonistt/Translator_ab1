@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace LA_Shtokal
 {
-    class Analiz : Input_Data
+    class Analiz: Input_Data
     {
+
+        
         private bool new_idn = true;
 
         private int currentRow = 1;
@@ -16,21 +18,23 @@ namespace LA_Shtokal
         private string currentLexem = "";
         private int currentST = 0;
 
-        public Error error { get; private set; }
+        public Error Error { get; private set; }
 
 
-        public List<RezultTable> rezultTable { get; private set; }= new List<RezultTable>();
-        public List<IdentifiersTable> identifiersTable { get; private set; }= new List<IdentifiersTable>();
-        public List<ConstTable> constTable { get; private set; }= new List<ConstTable>();
+
+        public List<RezultTable> RezultTable { get; private set; }= new List<RezultTable>();
+        public List<IdentifiersTable> IdentifiersTable { get; private set; }= new List<IdentifiersTable>();
+        public List<ConstTable> ConstTable { get; private set; }= new List<ConstTable>();
 
 
         public Analiz(string code):base(code)
         {
-            if(code=="" ||code[0]!='P')
+            if(code=="" ||code[0]!='П')
             {
-                error = new Error(1, 1, "");
+                Error = new Error(1, 1, "");
                 return;
             }
+            
             Move();
         }
 
@@ -76,6 +80,7 @@ namespace LA_Shtokal
             int CL;
             for (currentST = 0, currentSymb = 0; currentSymb != code.Length; currentSymb++)
             {
+
                 CL = Char_Type(code[currentSymb]);
                 currentST = automat_table[currentST, CL];
 
@@ -90,8 +95,11 @@ namespace LA_Shtokal
                     currentST = 0;
                     currentLexem = "";
                 }
+
                 
             }
+            currentST = -1;
+            Actions();
         }//головна функція руху по автомату
 
         private bool Actions()
@@ -128,23 +136,23 @@ namespace LA_Shtokal
         private void Action1()
         {
             int num_lexem = FindNumberLexem(lexemTable, currentLexem);//номер лексеми в таблиці лексем
-            if (currentLexem == "begin") new_idn = false;
+            if (currentLexem == "початок") new_idn = false;
             if (num_lexem >= 0)
             {
-                rezultTable.Add(new RezultTable(currentRow, currentLexem, num_lexem, 0));
+                RezultTable.Add(new RezultTable(currentRow, currentLexem, num_lexem, 0));
             }
             else
             {
-                int q= FindNumberIden(identifiersTable, currentLexem);
+                int q= FindNumberIden(IdentifiersTable, currentLexem);
                 if (q == -1)
                 {
-                    if (new_idn == false) error = new Error(currentRow, currentColumn, "Необ'явлений ідентифікатор");
-                    identifiersTable.Add(new IdentifiersTable(currentLexem, identifiersTable.Count + 1));
-                    rezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count - 1, identifiersTable.Last().index));
+                    if (new_idn == false) Error = new Error(currentRow, currentColumn, "Необ'явлений ідентифікатор");
+                    IdentifiersTable.Add(new IdentifiersTable(currentLexem, IdentifiersTable.Count + 1));
+                    RezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count - 1, IdentifiersTable.Last().index));
                 }
                 else
                 {
-                    rezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count - 1, q));
+                    RezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count - 1, q));
                 }
             }
             currentSymb--;
@@ -153,15 +161,15 @@ namespace LA_Shtokal
 
         private void Action2()
         {
-            int q = FindNumberConst(constTable, currentLexem);
+            int q = FindNumberConst(ConstTable, currentLexem);
             if (q==-1)
             {
-                constTable.Add(new ConstTable(currentLexem, constTable.Count() + 1));
-                rezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count, constTable.Count()));
+                ConstTable.Add(new ConstTable(currentLexem, ConstTable.Count() + 1));
+                RezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count, ConstTable.Count()));
             }
             else
             {
-                rezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count, q));
+                RezultTable.Add(new RezultTable(currentRow, currentLexem, lexemTable.Count, q));
             }
             currentSymb--;
            
@@ -171,7 +179,7 @@ namespace LA_Shtokal
         {
             currentLexem += code[currentSymb];
             int num_lexem = FindNumberLexem(lexemTable, currentLexem);
-            rezultTable.Add(new RezultTable(currentRow, currentLexem, num_lexem, 0));
+            RezultTable.Add(new RezultTable(currentRow, currentLexem, num_lexem, 0));
             currentColumn++;
           
         }
@@ -184,7 +192,7 @@ namespace LA_Shtokal
         private void Action5()
         {
             int num_lexem = FindNumberLexem(lexemTable, currentLexem);
-            rezultTable.Add(new RezultTable(currentRow, currentLexem, num_lexem, 0));
+            RezultTable.Add(new RezultTable(currentRow, currentLexem, num_lexem, 0));
             currentSymb--;
             
         }
@@ -209,34 +217,31 @@ namespace LA_Shtokal
 
         private void Action7()
         {
-            if(error==null)
+            if(Error==null)
             {
-                error = new Error(currentRow, currentColumn, "Невідомий символ");
+                Error = new Error(currentRow, currentColumn, "Невідомий символ");
                 currentColumn++;
             }
             
           
         }
     
-         private int  FindNumberLexem(Dictionary<int,string> list,string currentLexem)
+         private int  FindNumberLexem(LexemTable list,string currentLexem)
         {
-            
-            for (int i = 1; i <= list.Count; i++)
-            {
-                if (currentLexem == list[i])
+                var lex = list.FirstOrDefault((i) => i.Value == currentLexem);
+                if (lex.Value==currentLexem)
                 {
-                    return i;
+                    return lex.Key;
                 }
-            }
-            return -1;
+                return -1;
         }
 
          private int FindNumberIden(List<IdentifiersTable> list,string currentLexem)
         {
             
-            for (int i = 0; i < identifiersTable.Count; i++)
+            for (int i = 0; i < IdentifiersTable.Count; i++)
             {
-                if (currentLexem == identifiersTable[i].idn)
+                if (currentLexem == IdentifiersTable[i].idn)
                 {
                     return i + 1;
                 }
