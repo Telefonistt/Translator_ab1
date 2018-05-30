@@ -1,8 +1,7 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace LA_Shtokal
 {
@@ -19,9 +18,6 @@ namespace LA_Shtokal
         private int currentST = 0;
 
         public Error Error { get; private set; }
-
-
-
         public List<RezultTable> RezultTable { get; private set; }= new List<RezultTable>();
         public List<IdentifiersTable> IdentifiersTable { get; private set; }= new List<IdentifiersTable>();
         public List<ConstTable> ConstTable { get; private set; }= new List<ConstTable>();
@@ -263,7 +259,7 @@ namespace LA_Shtokal
 
     }
 
-     struct RezultTable
+    public struct RezultTable
     {
         public int row { get; private set; }
         public string lexem { get; private set; }
@@ -278,7 +274,7 @@ namespace LA_Shtokal
         }
     }
 
-     struct IdentifiersTable
+    public struct IdentifiersTable
     {
         public string idn { get; private set; }
         public int index { get; private set; }
@@ -289,7 +285,7 @@ namespace LA_Shtokal
         }
     }
 
-     struct ConstTable
+    public struct ConstTable
     {
         public string constant { get; private set; }
         public int index { get; private set; }
@@ -301,17 +297,17 @@ namespace LA_Shtokal
         }
     }
 
-     class Error
+    public class Error
     {
-        public int row { get; private set; }
-        public int column { get; private set; }
-        public string message { get; private set; }
+        public int Row { get; private set; }
+        public int Column { get; private set; }
+        public string Message { get; private set; }
 
         public Error(int row,int column,string message)
         {
-            this.row = row;
-            this.column = column;
-            this.message = message;
+            this.Row = row;
+            this.Column = column;
+            this.Message = message;
         }
     }
 }

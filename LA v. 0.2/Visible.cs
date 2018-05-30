@@ -21,7 +21,15 @@ namespace LA_Shtokal
         private void Visible_Load(object sender, EventArgs e)
         {
             string path= Application.StartupPath.ToString();
-            code = System.IO.File.ReadAllText($@"{path}\program.txt"); 
+            try
+            {
+                code = System.IO.File.ReadAllText($@"{path}\program.txt");
+            }
+            catch
+            {
+
+            }
+             
             textBox1.Text = code;
         }
 
@@ -30,7 +38,7 @@ namespace LA_Shtokal
             Analiz test = new Analiz(code);
             if(test.Error!=null)
             {
-                MessageBox.Show("Помилка! Рядок " + test.Error.row.ToString() + ". Колонка " + test.Error.column.ToString()+"\n"+test.Error.message);
+                MessageBox.Show("Помилка! Рядок " + test.Error.Row.ToString() + ". Колонка " + test.Error.Column.ToString()+"\n"+test.Error.Message);
                 return;
             }
             dataGridView1.Rows.Clear();
@@ -52,7 +60,7 @@ namespace LA_Shtokal
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             code = textBox1.Text;
             Run();

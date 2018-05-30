@@ -75,6 +75,7 @@ namespace LA_Shtokal
             lexemTable.AddLex("+");
             lexemTable.AddLex("-");
             lexemTable.AddLex("*");
+            lexemTable.AddLex("?");
             lexemTable.AddLex(">");
             lexemTable.AddLex("<");
             lexemTable.AddLex(">=");
@@ -91,7 +92,7 @@ namespace LA_Shtokal
         {
             Regex letter = new Regex("[_a-zA-ZАаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯя]");
             Regex digit = new Regex("[0-9]");
-            Regex separ_one = new Regex("[(|)|\\[|\\]|\\{|\\}|,|;|:|+|\\-|*|/|\\^|.]");
+            Regex separ_one = new Regex("[(|)|\\[|\\]|\\{|\\}|,|;|:|+|\\-|*|/|\\^|.|\\?]");
             Regex separ_logic = new Regex("[>|<|!]");
             Regex equare = new Regex("[=]");
             Regex space = new Regex(@"\s");
